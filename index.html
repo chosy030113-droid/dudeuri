@@ -461,6 +461,31 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hscroll.more-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
 .hscroll.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px);mask-image:linear-gradient(90deg,transparent,#000 28px)}
 .hscroll.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 40px),transparent)}
+
+/* 시작하기: 두 번 두드려서 시작 */
+.intro{display:flex;align-items:stretch}
+.knockpad{position:relative;flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:0 20px 60px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.knockpad:focus-visible{outline:none}
+.knockpad:focus-visible .kdoor{outline:2px solid var(--o500);outline-offset:12px;border-radius:8px}
+.kdoor{position:relative;width:112px;height:112px;perspective:420px;display:block;animation:saUp .6s cubic-bezier(.2,.8,.2,1) .1s both}
+.kd{position:absolute;top:0;width:56px;height:112px;display:block;transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.kl{left:0;transform-origin:0 50%}.kr{left:56px;transform-origin:100% 50%}
+.kdoor.hit{animation:kHit .32s ease-out}
+@keyframes kHit{0%{transform:none}25%{transform:scale(.94) rotate(-2deg)}55%{transform:scale(1.03) rotate(1deg)}100%{transform:none}}
+.kdoor.open .kl{transform:rotateY(-72deg)}.kdoor.open .kr{transform:rotateY(72deg)}
+.kword{width:103px;height:42px;display:block;animation:saUp .6s cubic-bezier(.2,.8,.2,1) .25s both}
+.khint{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:32px;animation:saFade .6s ease-out .5s both}
+.khint b{font:600 17px/24px "Pretendard";letter-spacing:-.03em;color:var(--n700)}
+.khint b{animation:kBreath 2.4s ease-in-out 1.2s infinite}
+@keyframes kBreath{0%,100%{opacity:1}50%{opacity:.45}}
+.kdots{display:flex;gap:8px}
+.kdots i{width:8px;height:8px;border-radius:50%;background:var(--n300);transition:background .2s,transform .2s}
+.kdots i.on{background:var(--o500);transform:scale(1.25)}
+.ktok{position:absolute;transform:translate(-50%,-50%);font:700 22px/1 "Pretendard";color:var(--n900);text-shadow:0 0 0 #fff,0 0 6px #fff,0 0 10px #fff;pointer-events:none;animation:kTok .8s ease-out forwards}
+@keyframes kTok{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}20%{opacity:1;transform:translate(-50%,-80%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-180%) scale(1)}}
+
+.khint.gone{opacity:0;transition:opacity .3s ease}
+.khint.gone b{animation:none}
 </style>
 </head>
 <body>
@@ -741,10 +766,35 @@ SCREENS.splash = { cls:'', title:()=>'두드리', render(){
 
 /* ---------- 시작하기 ---------- */
 SCREENS.intro = { cls:'white', title:()=>'시작하기', render(){
-  return top('') + `<div class="body intro stack" style="align-items:center;justify-content:center;gap:16px;padding:0 20px">
-      <div class="in-logo">${art('logoBig',155,63)}</div>
-      <p class="t-body mut6 in-tag" style="text-align:center">이웃을 두드리는 따뜻한 한 걸음</p></div>
-    <div class="foot in-foot"><button class="btn" data-a="introstart">시작하기</button></div>`; } };
+  const part = k => A[k].replace('<svg ','<svg aria-hidden="true" style="display:block;width:100%;height:100%" ');
+  return top('') + `<div class="body intro">
+      <button class="knockpad" data-a="knock" aria-label="두 번 두드려서 시작하기">
+        <span class="kdoor"><span class="kd kl">${part('nA')}</span><span class="kd kr">${part('nB')}</span></span>
+        <span class="kword">${part('nWord')}</span>
+        <span class="khint"><b>두 번 두드려 보세요</b><span class="kdots" aria-hidden="true"><i></i><i></i></span></span>
+      </button></div>`; },
+  mount(el){ KN.n = 0; KN.done = false; } };
+const KN = {n:0, t:null, done:false};
+function knock(btn, ev){
+  if (KN.done) return;
+  const pad = btn.closest('.knockpad'); const door = pad.querySelector('.kdoor');
+  // 두드린 자리에 '똑' 글자
+  const r = pad.getBoundingClientRect(), sc = r.width / pad.offsetWidth || 1;
+  const x = ev && ev.clientX ? (ev.clientX - r.left)/sc : pad.offsetWidth/2, y = ev && ev.clientY ? (ev.clientY - r.top)/sc : pad.offsetHeight/2 - 60;
+  const t = document.createElement('span'); t.className = 'ktok'; t.textContent = '똑'; t.style.left = x+'px'; t.style.top = y+'px'; pad.appendChild(t); setTimeout(() => t.remove(), 800);
+  door.classList.remove('hit'); void door.offsetWidth; door.classList.add('hit');
+  if (navigator.vibrate) try{ navigator.vibrate(18); }catch(e){}
+  KN.n++; const dots = pad.querySelectorAll('.kdots i'); dots.forEach((d,i) => d.classList.toggle('on', i < KN.n));
+  clearTimeout(KN.t);
+  if (KN.n >= 2){
+    KN.done = true; pad.querySelector('.khint').classList.add('gone');
+    setTimeout(() => door.classList.add('open'), 260);
+    setTimeout(() => { if (cur().name === 'intro') go('apt'); }, 1300);
+  } else {
+    pad.querySelector('.khint b').textContent = '한 번 더!';
+    KN.t = setTimeout(() => { KN.n = 0; dots.forEach(d => d.classList.remove('on')); const b = pad.querySelector('.khint b'); if (b) b.textContent = '두 번 두드려 보세요'; }, 1600);
+  }
+}
 
 /* ---------- 로그인 ---------- */
 SCREENS.login = { title:()=> '로그인', render(p){
@@ -1225,6 +1275,7 @@ const ACT = {
     if (p.add){ back(); toast('아이 계정을 만들었어요'); } else go('welcome'); },
   kidskip(){ go('welcome'); },
   introstart(){ go('apt'); },
+  knock(d, el){ knock(el, LASTEV); },
   start(){ S.loggedIn = true; save(); reset('home'); toast(`${S.user.apt} 이웃이 되었어요`); },
   // 홈
   greetpick(d){ S.greetPick = d.k; save(); rerender(); },
@@ -1308,7 +1359,9 @@ const ACT = {
 };
 
 /* ---------- 이벤트 ---------- */
+let LASTEV = null;
 phone.addEventListener('click', e => {
+  LASTEV = e;
   const t = e.target.closest('[data-a]'); if (!t || t.disabled || !phone.contains(t)) return;
   const fn = ACT[t.dataset.a]; if (fn){ e.preventDefault(); fn(t.dataset, t); }
 });
