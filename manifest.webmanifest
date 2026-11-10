@@ -1,0 +1,16 @@
+{
+  "name": "두드리",
+  "short_name": "두드리",
+  "description": "이웃을 두드리는 따뜻한 한 걸음",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FCFCFC",
+  "theme_color": "#FF714F",
+  "lang": "ko",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
