@@ -390,6 +390,66 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .door .doorway circle{display:none}
 
 /* 미션 완료: 피그마 D4_2 정렬 */
+/* 이웃 거리 */
+.unit{font:500 12px/1 "Pretendard";color:var(--n500);margin-left:2px;letter-spacing:0}
+
+/* 이웃 거리 v3: 동그란 캐릭터 + 발자국 */
+.dz-row{position:relative;display:flex;align-items:flex-start;justify-content:center;height:auto;padding-top:20px}
+.dz-side{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+.dz-side .av{width:64px;height:64px}
+.nbav{box-shadow:0 0 0 2px var(--b600)}
+.dz-feet{display:flex;justify-content:flex-end;overflow:hidden;height:64px;margin:0 6px;transition:width 1.6s cubic-bezier(.3,.7,.2,1)}
+.dz-ftrack{display:flex;align-items:center;flex:none}
+.dz-feet .ft{display:block;width:26px;color:var(--o300, #FEB49E);transition:transform .3s,opacity .3s,width .3s}
+.dz-feet .ft svg{display:block;margin:0 auto;transform:rotate(90deg)}
+.dz-feet .ft.up{transform:translateY(-7px)}.dz-feet .ft.dn{transform:translateY(7px)}
+.dz-feet .ft.step{opacity:0;transform:scale(1.6);width:0}
+.dz.moving .dz-side.me{animation:dzStep .32s ease-in-out infinite}
+@keyframes dzStep{50%{transform:translateY(-6px) rotate(-4deg)}}
+.dz-logo{position:absolute;left:50%;top:0;margin-left:-22px;opacity:0;transform:scale(.4)}
+.dz.met .dz-logo{opacity:1;transform:none;transition:opacity .4s .2s,transform .5s .2s cubic-bezier(.2,1.6,.4,1)}
+.dz.met .dz-feet{margin:0;width:0!important}
+.dz.met .dz-row{padding-top:60px}
+.dz.met .nbav{box-shadow:0 0 0 2px var(--o500)}
+.dz.met .dz-side.me{margin-right:-6px}.dz.met .dz-side.nb{margin-left:-6px}
+.dz.met .dz-row{animation:dzMet 1s ease-out}
+.dz.met .dz-h{filter:none}
+
+.dzsimple{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 var(--m) 24px}
+.dzsimple .dzwrap{padding:24px 0}
+.dzsimple .dz{gap:24px}
+.dzsimple .dz-num b{font-size:72px}
+
+.dzwrap{padding:28px var(--m) 8px}
+.dz{display:flex;flex-direction:column;align-items:center;gap:20px}
+.dz-num{margin:0;display:flex;align-items:baseline;gap:2px;color:var(--o500)}
+.dz-num b{font:800 64px/1 "Pretendard";letter-spacing:-.04em;font-variant-numeric:tabular-nums;min-width:1.2em;text-align:right}
+.dz-num span{font:700 24px/1 "Pretendard";margin-left:4px}
+.dz-row{display:flex;align-items:flex-start;justify-content:center;height:136px}
+.dz-side{display:flex;flex-direction:column;align-items:center;gap:10px}
+.dz-h{display:block;width:56px;height:112px;color:var(--o500);transition:color 1.5s ease}
+.dz-l{font:600 13px/18px "Pretendard";color:var(--n600)}
+.dz-line{display:block;height:0;margin-top:56px;border-top:2px dashed var(--n300);transition:width 1.5s cubic-bezier(.3,.7,.2,1)}
+.dz.moving .dz-h.me{animation:dzStep .5s ease-in-out 3}
+.dz.moving .dz-h.nb{animation:dzStep .5s ease-in-out .25s 3}
+@keyframes dzStep{50%{transform:translateY(-6px)}}
+.dz.land .dz-num b{animation:cBump .5s cubic-bezier(.2,1.8,.4,1)}
+.dz-stage{margin:0;height:28px;padding:0 12px;border-radius:999px;background:var(--o50);color:var(--o600);font:600 14px/28px "Pretendard"}
+.dz.met .dz-row{animation:dzMet 1.2s ease-out}
+.dz.met .dz-h{filter:drop-shadow(0 0 14px rgba(255,113,79,.45))}
+@keyframes dzMet{30%{transform:scale(1.08)}100%{transform:none}}
+.dtrack{position:relative;height:72px;margin:24px 24px 0}
+.dt-line{position:absolute;left:0;right:0;top:6px;height:2px;background:var(--n200)}
+.dt-fill{display:block;height:100%;background:var(--o500);transition:width .6s ease}
+.dt-stop{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;width:72px}
+.dt-stop i{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--n300);box-sizing:border-box}
+.dt-stop.on i{border-color:var(--o500);background:var(--o500)}
+.dt-stop.now i{transform:scale(1.35);box-shadow:0 0 0 4px var(--o100)}
+.dt-stop b{font:600 12px/16px "Pretendard";color:var(--n500);margin-top:2px}
+.dt-stop small{font:400 11px/14px "Pretendard";color:var(--n500);text-align:center;word-break:keep-all}
+.dt-stop.now b,.dt-stop.now small{color:var(--o600)}
+.dzgain{animation:cUp .5s cubic-bezier(.2,.8,.2,1) 2.2s both}
+
 .donewrap{display:flex;flex-direction:column;align-items:center;padding:48px var(--m) 24px;text-align:center}
 .donewrap .cbadge{margin-bottom:24px}
 .donewrap .ctitle{margin:0 0 32px}
@@ -993,8 +1053,71 @@ SCREENS.missiondone = { cls:'white', title:()=>'미션 완료', render(){
       <div class="dbox peach cup"><p class="t-strong">오늘 우리 단지 미션 <span class="or">${S.counts.mission-1}번 → <span class="cnum" data-to="${S.counts.mission}">${S.counts.mission-1}</span>번</span></p><p class="t-c2 mut6">단지 이웃 모두의 기록에 더해졌어요</p></div>
       <p class="t-c2 mut6 cup2">인증은 단지 지도에도 보여요</p>
     </div></div>
-    <div class="donefoot cfoot"><button class="btn" data-a="homeback">홈으로</button><button class="btn dsec" data-a="mycheckins">내 인증 보기</button></div>`; },
+    <div class="donefoot cfoot"><button class="btn" data-a="seecloser">이웃과의 거리 보기</button><button class="btn dsec" data-a="homeback">홈으로</button></div>`; },
   mount(el){ celebrate(el); } };
+
+/* ---------- 이웃 거리: 미션·안부로 이웃과 가까워지는 거리 ---------- */
+const DMAX = 80;
+const DSTAGE = [[61,'아직 낯선 사이'],[41,'눈인사하는 사이'],[21,'안부 묻는 사이'],[1,'반가운 이웃'],[0,'문 열린 이웃']];
+const DSTOP = [80,60,40,20,0];
+function DIST(){ if (!S.dist) S.dist = {m:42, log:[{why:'반가운 인사 미션 완료', d:5, when:'어제'},{why:'놀이터지킴이님에게 안부', d:1, when:'2일 전'},{why:'질문에 답하기', d:2, when:'3일 전'}]}; return S.dist; }
+function dStage(m){ for (const [t,n] of DSTAGE) if (m >= t) return n; return DSTAGE[DSTAGE.length-1][1]; }
+function dIdx(m){ return m > 60 ? 0 : m > 40 ? 1 : m > 20 ? 2 : m > 0 ? 3 : 4; }
+function getCloser(n, why){
+  const D = DIST(), from = D.m, to = Math.max(0, from - n);
+  D.m = to; D.log.unshift({why, d: from - to, when:'방금'}); D.log = D.log.slice(0, 12); save();
+  return {from, to, why, d: from - to};
+}
+function dColor(m){ // 이웃은 하늘색, 맞닿으면 나와 같은 주황으로
+  return m === 0 ? '#FF714F' : '#3FB8EC';
+}
+const dGap = m => Math.round(Math.min(m, DMAX) / DMAX * 200);
+const FSLOT = 7;
+const fWidth = m => Math.round(Math.min(m, DMAX) / DMAX * 182);
+const FOOT = '<svg width="14" height="24" viewBox="0 0 14 24" aria-hidden="true"><path d="M7 1C10.6 1 13 4.6 13 9.5C13 14 11.4 16.6 10.2 19.6C9.6 21.6 8.6 23 7 23C5.4 23 4.4 21.6 3.8 19.6C2.6 16.6 1 14 1 9.5C1 4.6 3.4 1 7 1Z" fill="currentColor"/></svg>';
+function dViz(m){
+  return `<div class="dz ${m===0?'met':''}" role="img" aria-label="이웃까지 ${m}걸음">
+    <div class="stack g4" style="align-items:center"><span class="t-c1 mut6">이웃까지</span><p class="dz-num"><b class="dzm">${m}</b><span>걸음</span></p></div>
+    <div class="dz-row">
+      <span class="dz-logo" aria-hidden="true">${art('nSym',44,44)}</span>
+      <span class="dz-side me">${avatar(S.user.nick,64,true)}<span class="dz-l">나</span></span>
+      <span class="dz-feet" style="width:${fWidth(m)}px"><span class="dz-ftrack">${Array.from({length:FSLOT},(_,i)=>`<i class="ft ${i%2?'dn':'up'}">${FOOT}</i>`).join('')}</span></span>
+      <span class="dz-side nb"><span class="av nbav" style="width:64px;height:64px">${avArt('av5')}</span><span class="dz-l">이웃</span></span>
+    </div>
+    <p class="dz-stage">${dStage(m)}</p></div>`;
+}
+function dTrack(m){
+  const i = dIdx(m);
+  return `<div class="dtrack" aria-label="거리 단계"><span class="dt-line"><span class="dt-fill" style="width:${i/4*100}%"></span></span>
+    ${DSTOP.map((s,k)=>`<span class="dt-stop ${k<=i?'on':''} ${k===i?'now':''}" style="left:${k/4*100}%"><i></i><b>${s}m</b><small>${DSTAGE[k][1]}</small></span>`).join('')}</div>`;
+}
+SCREENS.closer = { cls:'white', title:()=>'이웃 거리', render(p){
+  const D = DIST(), start = p.from != null ? p.from : DMAX;
+  const fresh = p.from != null && p.d > 0;
+  return top(hdr('', {left:'<span style="width:44px"></span>', right:closeB(fresh?'homeback':'back')})) + `<div class="body dzsimple">
+    <h2 class="t-title" style="text-align:center">${fresh ? `이웃에게 <span class="or">${p.d}</span>걸음<br>다가갔어요` : '이웃까지 남은 걸음'}</h2>
+    <div class="dzwrap" data-from="${start}" data-to="${D.m}">${dViz(start)}</div>
+    ${fresh ? `<p class="t-c1 mut6 dzgain" style="text-align:center;margin:0">${esc(p.why)} <b class="or">+${p.d}걸음</b></p>` : ''}
+  </div><div class="foot"><button class="btn" data-a="homeback">홈으로</button></div>`; },
+  mount(el, p){
+    const wrap = el.querySelector('.dzwrap'); if (!wrap) return;
+    const from = +wrap.dataset.from, to = +wrap.dataset.to;
+    const num = el.querySelector('.dzm'), stage = el.querySelector('.dz-stage'), dz = el.querySelector('.dz');
+    const feet = el.querySelector('.dz-feet');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finish = () => { num.textContent = to; stage.textContent = dStage(to); if (to === 0) dz.classList.add('met'); };
+    if (reduce || from === to){ feet.style.width = fWidth(to)+'px'; finish(); return; }
+    setTimeout(() => {
+      dz.classList.add('moving');
+      const dur = 1600, t0 = performance.now(); feet.style.width = fWidth(to)+'px';
+      const tick = now => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        num.textContent = Math.round(from + (to - from) * e);
+        if (k < 1) requestAnimationFrame(tick); else { dz.classList.remove('moving'); dz.classList.add('land'); finish(); } };
+      requestAnimationFrame(tick);
+    }, 650);
+  } };
+
+let LASTCLOSE = null;
 function celebrate(el){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const num = el.querySelector('.cnum'); setTimeout(() => { if (num){ num.textContent = num.dataset.to; num.classList.add('bump'); } }, reduce ? 0 : 1500);
@@ -1188,7 +1311,7 @@ SCREENS.my = { tab:'me', title:()=>'내 정보', render(){
     <div class="row g16" style="padding:24px var(--m)">${avatar(S.user.nick,80,true)}<div class="stack g4" style="flex:1"><h2 class="t-sub1">${esc(S.user.nick)}</h2><p class="t-c1 mut6">${esc(S.user.apt)}</p></div></div>
     <div class="row" style="padding:16px 0;border-top:1px solid var(--n200);border-bottom:1px solid var(--n200)">
       <button class="stack g4" data-a="go" data-k="myposts" style="flex:1;align-items:center;border:0;background:none"><b class="t-sub1 or" style="font-size:18px">${posts}</b><span class="t-c2 mut6">작성글</span></button>
-      <div class="stack g4" style="flex:1;align-items:center;border-left:1px solid var(--n200)"><b class="t-sub1 or" style="font-size:18px">${S.interest}</b><span class="t-c2 mut6">관심</span></div>
+      <button class="stack g4" data-a="opencloser" style="flex:1;align-items:center;border:0;border-left:1px solid var(--n200);background:none"><b class="t-sub1 or" style="font-size:18px">${DIST().m}<span class="unit">걸음</span></b><span class="t-c2 mut6">이웃까지</span></button>
       <div class="stack g4" style="flex:1;align-items:center;border-left:1px solid var(--n200)"><b class="t-sub1 or" style="font-size:18px">${S.points}</b><span class="t-c2 mut6">포인트</span></div></div>
     <div class="pad list" style="padding-top:8px">
       ${[['myacct','icUser','내 계정'],['kids','icKids','아이 계정 관리'],['myposts','icEdit','내 글 관리'],['notiset','icBell','알림 설정']].map(([k,i,l])=>`<button class="menu" data-a="go" data-k="${k}"><span class="ic">${tintO(i)}</span><span class="sp">${l}</span>${chevI()}</button>`).join('')}</div>
@@ -1292,10 +1415,10 @@ const ACT = {
   start(){ S.loggedIn = true; save(); reset('home'); toast(`${S.user.apt} 이웃이 되었어요`); },
   // 홈
   greetpick(d){ S.greetPick = d.k; save(); rerender(); },
-  greetsend(d){ const n = S.greetPick; (S.sent[n] = S.sent[n] || []).push(+d.i); S.counts.greet++; save(); rerender(); toast(`${n}님에게 안부를 보냈어요`); },
-  greetto(d){ greetSheet(d.k); ovState.opts.onSend = (i) => { (S.sent[d.k] = S.sent[d.k] || []).push(i); S.counts.greet++; save(); rerender(); toast(`${d.k}님에게 안부를 보냈어요`); }; },
+  greetsend(d){ const n = S.greetPick; (S.sent[n] = S.sent[n] || []).push(+d.i); S.counts.greet++; getCloser(1, `${n}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃에게 한 걸음 다가갔어요`); },
+  greetto(d){ greetSheet(d.k); ovState.opts.onSend = (i) => { (S.sent[d.k] = S.sent[d.k] || []).push(i); S.counts.greet++; getCloser(1, `${d.k}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃에게 한 걸음 다가갔어요`); }; },
   sheetgreet(d){ const fn = ovState && ovState.opts.onSend; closeOv(); if (fn) fn(+d.i); },
-  reply(d){ const r = S.received.find(x=>x.id===d.k); greetSheet(r.from); ovState.opts.onSend = () => { r.replied = true; S.counts.greet++; save(); rerender(); toast(`${r.from}님에게 답장을 보냈어요`); }; },
+  reply(d){ const r = S.received.find(x=>x.id===d.k); greetSheet(r.from); ovState.opts.onSend = () => { r.replied = true; S.counts.greet++; getCloser(2, `${r.from}님에게 답장`); save(); rerender(); toast(`답장을 보냈어요 · 이웃에게 두 걸음 다가갔어요`); }; },
   // 미션
   door(d, el){
     const p = cur().p; p.idx = p.idx || {};
@@ -1308,7 +1431,10 @@ const ACT = {
   choosemission(){ const p = cur().p; p.keep = true; S.mission = {status:'chosen', door:p.sel, idx:(p.idx[p.sel]||0) % DOORS[p.sel].missions.length}; save(); reset('home'); toast('오늘의 미션을 골랐어요'); },
   rmphoto(){ F(cur().p).photo = null; rerender(); },
   checkinsave(){ const f = F(cur().p); S.mission.status = 'done'; S.counts.mission++;
-    S.checkins.unshift({id:'c'+Date.now(), door:S.mission.door, text:missionText(), note:(f.note||'').trim(), when:'오늘', photo:f.photo||null}); save(); replace('missiondone', {}, 'fade'); },
+    S.checkins.unshift({id:'c'+Date.now(), door:S.mission.door, text:missionText(), note:(f.note||'').trim(), when:'오늘', photo:f.photo||null}); LASTCLOSE = getCloser(5, (DOORS[S.mission.door]||{label:'오늘의'}).label + ' 미션 완료'); save(); replace('missiondone', {}, 'fade'); },
+  seecloser(){ replace('closer', LASTCLOSE || {}, 'fade'); },
+  closerto(d){ if (d.k === 'greetings' || d.k === 'missions') { reset('home', {}, null); setTimeout(() => go(d.k), 20); } else reset(d.k); },
+  opencloser(){ go('closer', {}); },
   // 알림
   readall(){ S.notis.forEach(n=>n.read=true); save(); rerender(); },
   noti(d){ const n = S.notis.find(x=>x.id===d.k); n.read = true; save();
@@ -1338,8 +1464,8 @@ const ACT = {
   qpost(){ const f = F(cur().p); S.questions.unshift({id:'q'+Date.now(), text:f.qt.trim(), place: f.custom ? null : (f.place||null), customPlace: f.custom ? f.place : null, author:S.user.nick, time:'방금', answers:[], solved:false}); save(); reset('questions'); toast('질문을 올렸어요'); },
   qsolve(){ const q = S.questions.find(x=>x.id===cur().p.id); q.solved = !q.solved; save(); rerender(); toast(q.solved?'해결됐다고 표시했어요':'다시 답을 기다려요'); },
   thx(d){ const a = S.questions.flatMap(q=>q.answers).find(x=>x.id===d.k); S.thanked[a.id] = !S.thanked[a.id]; a.thanks += S.thanked[a.id] ? 1 : -1; save(); rerender(); },
-  anspost(){ const p = cur().p, f = F(p), q = S.questions.find(x=>x.id===p.id); q.answers.push({id:'a'+Date.now(), author:S.user.nick, time:'방금', text:f.ans.trim(), thanks:0, my:true}); f.ans = ''; save(); rerender();
-    const b = cur().el.querySelector('.body'); b.scrollTop = b.scrollHeight; toast('답을 남겼어요'); },
+  anspost(){ const p = cur().p, f = F(p), q = S.questions.find(x=>x.id===p.id); q.answers.push({id:'a'+Date.now(), author:S.user.nick, time:'방금', text:f.ans.trim(), thanks:0, my:true}); f.ans = ''; getCloser(2, '질문에 답하기'); save(); rerender();
+    const b = cur().el.querySelector('.body'); b.scrollTop = b.scrollHeight; toast('답을 남겼어요 · 이웃에게 두 걸음 다가갔어요'); },
   ansdel(d){ confirmBox('이 답을 지울까요?', '지운 답은 다시 볼 수 없어요', '지우기', () => { S.questions.forEach(q => q.answers = q.answers.filter(a=>a.id!==d.k)); save(); rerender(); toast('답을 지웠어요'); }); },
   // 내 정보
   edstart(d){ const p = cur().p; p.edit = d.k; F(p).ed = S.user[d.k]; rerender(); const i = cur().el.querySelector('[data-in="ed"]'); if (i){ i.focus(); i.select(); } },
