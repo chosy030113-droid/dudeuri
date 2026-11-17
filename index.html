@@ -398,7 +398,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .dz-side{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
 .dz-side .av{width:64px;height:64px}
 .nbav{box-shadow:0 0 0 2px var(--b600)}
-.dz-feet{display:flex;justify-content:flex-end;overflow:hidden;height:64px;margin:0 6px;transition:width 1.6s cubic-bezier(.3,.7,.2,1)}
+.dz-feet{display:flex;justify-content:flex-end;align-items:center;overflow:hidden;height:64px;margin:0 6px;padding-top:20px;box-sizing:content-box;transition:width 1.6s cubic-bezier(.3,.7,.2,1)}
 .dz-ftrack{display:flex;align-items:center;flex:none}
 .dz-feet .ft{display:block;width:26px;color:var(--o300, #FEB49E);transition:transform .3s,opacity .3s,width .3s}
 .dz-feet .ft svg{display:block;margin:0 auto;transform:rotate(90deg)}
@@ -1095,7 +1095,7 @@ SCREENS.closer = { cls:'white', title:()=>'이웃 거리', render(p){
   const D = DIST(), start = p.from != null ? p.from : DMAX;
   const fresh = p.from != null && p.d > 0;
   return top(hdr('', {left:'<span style="width:44px"></span>', right:closeB(fresh?'homeback':'back')})) + `<div class="body dzsimple">
-    <h2 class="t-title" style="text-align:center">${fresh ? `이웃에게 <span class="or">${p.d}</span>걸음<br>다가갔어요` : '이웃까지 남은 걸음'}</h2>
+    <h2 class="t-title" style="text-align:center">${fresh ? `이웃들과 <span class="or">${p.d}</span>걸음 더<br>가까워졌어요` : '이웃까지 남은 걸음'}</h2>
     <div class="dzwrap" data-from="${start}" data-to="${D.m}">${dViz(start)}</div>
     ${fresh ? `<p class="t-c1 mut6 dzgain" style="text-align:center;margin:0">${esc(p.why)} <b class="or">+${p.d}걸음</b></p>` : ''}
   </div><div class="foot"><button class="btn" data-a="homeback">홈으로</button></div>`; },
@@ -1415,10 +1415,10 @@ const ACT = {
   start(){ S.loggedIn = true; save(); reset('home'); toast(`${S.user.apt} 이웃이 되었어요`); },
   // 홈
   greetpick(d){ S.greetPick = d.k; save(); rerender(); },
-  greetsend(d){ const n = S.greetPick; (S.sent[n] = S.sent[n] || []).push(+d.i); S.counts.greet++; getCloser(1, `${n}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃에게 한 걸음 다가갔어요`); },
-  greetto(d){ greetSheet(d.k); ovState.opts.onSend = (i) => { (S.sent[d.k] = S.sent[d.k] || []).push(i); S.counts.greet++; getCloser(1, `${d.k}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃에게 한 걸음 다가갔어요`); }; },
+  greetsend(d){ const n = S.greetPick; (S.sent[n] = S.sent[n] || []).push(+d.i); S.counts.greet++; getCloser(1, `${n}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃들과 한 걸음 더 가까워졌어요`); },
+  greetto(d){ greetSheet(d.k); ovState.opts.onSend = (i) => { (S.sent[d.k] = S.sent[d.k] || []).push(i); S.counts.greet++; getCloser(1, `${d.k}님에게 안부`); save(); rerender(); toast(`안부를 보냈어요 · 이웃들과 한 걸음 더 가까워졌어요`); }; },
   sheetgreet(d){ const fn = ovState && ovState.opts.onSend; closeOv(); if (fn) fn(+d.i); },
-  reply(d){ const r = S.received.find(x=>x.id===d.k); greetSheet(r.from); ovState.opts.onSend = () => { r.replied = true; S.counts.greet++; getCloser(2, `${r.from}님에게 답장`); save(); rerender(); toast(`답장을 보냈어요 · 이웃에게 두 걸음 다가갔어요`); }; },
+  reply(d){ const r = S.received.find(x=>x.id===d.k); greetSheet(r.from); ovState.opts.onSend = () => { r.replied = true; S.counts.greet++; getCloser(2, `${r.from}님에게 답장`); save(); rerender(); toast(`답장을 보냈어요 · 이웃들과 두 걸음 더 가까워졌어요`); }; },
   // 미션
   door(d, el){
     const p = cur().p; p.idx = p.idx || {};
@@ -1465,7 +1465,7 @@ const ACT = {
   qsolve(){ const q = S.questions.find(x=>x.id===cur().p.id); q.solved = !q.solved; save(); rerender(); toast(q.solved?'해결됐다고 표시했어요':'다시 답을 기다려요'); },
   thx(d){ const a = S.questions.flatMap(q=>q.answers).find(x=>x.id===d.k); S.thanked[a.id] = !S.thanked[a.id]; a.thanks += S.thanked[a.id] ? 1 : -1; save(); rerender(); },
   anspost(){ const p = cur().p, f = F(p), q = S.questions.find(x=>x.id===p.id); q.answers.push({id:'a'+Date.now(), author:S.user.nick, time:'방금', text:f.ans.trim(), thanks:0, my:true}); f.ans = ''; getCloser(2, '질문에 답하기'); save(); rerender();
-    const b = cur().el.querySelector('.body'); b.scrollTop = b.scrollHeight; toast('답을 남겼어요 · 이웃에게 두 걸음 다가갔어요'); },
+    const b = cur().el.querySelector('.body'); b.scrollTop = b.scrollHeight; toast('답을 남겼어요 · 이웃들과 두 걸음 더 가까워졌어요'); },
   ansdel(d){ confirmBox('이 답을 지울까요?', '지운 답은 다시 볼 수 없어요', '지우기', () => { S.questions.forEach(q => q.answers = q.answers.filter(a=>a.id!==d.k)); save(); rerender(); toast('답을 지웠어요'); }); },
   // 내 정보
   edstart(d){ const p = cur().p; p.edit = d.k; F(p).ed = S.user[d.k]; rerender(); const i = cur().el.querySelector('[data-in="ed"]'); if (i){ i.focus(); i.select(); } },
